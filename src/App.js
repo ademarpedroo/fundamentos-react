@@ -1,42 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Post from './Post'
 import Header from './Header'
 
 // Props -> Propriedades
 function App() {
+  const [posts, setPosts] = useState([
+    { id: Math.random(), title: 'Title#01', subtitle: 'Sub#01', likes: 20 },
+    { id: Math.random(), title: 'Title#02', subtitle: 'Sub#02', likes: 10 },
+    { id: Math.random(), title: 'Title#03', subtitle: 'Sub#03', likes: 50 },
+    { id: Math.random(), title: 'Title#04', subtitle: 'Sub#04', likes: 50 },
+  ]);
+
+  function handleRefresh() {
+    setPosts([
+      ...posts,
+      {
+        id: Math.random(),
+        title: `Title#${posts.length + 1}`,
+        subtitle: `Sub#${posts.length + 1}`,
+        likes: 50
+      },
+    ]);
+  }
+
   return (
     <>
     <Header>
-      <h2>Posts da semana</h2>
+      <h2>
+        Posts da semana
+        <button onClick={handleRefresh}>Atualizar</button>
+      </h2>
     </Header>
 
     <hr />
 
-    <Post 
-      likes={20}
-      post={{
-        title: "Titulo da noticia 01",
-        subtitle: "Subtitulo da noticia 01",
-      }}
-      />
-
+    {posts.map(post => (
       <Post 
-        likes={10}
+        key={post.id}
+        likes={post.likes}
         post={{
-          title: "Titulo da noticia 02",
-          subtitle: "Subtitulo da noticia 02",
+          title: post.title,
+          subtitle: post.subtitle
         }}
       />
-
-      <Post 
-        likes={50}
-        post={{
-          title: "Titulo da noticia 03",
-          subtitle: "Subtitulo da noticia 03",
-        }}
-      />
-      
+    ))}
     </>
   );
 }
