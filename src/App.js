@@ -5,12 +5,22 @@ import Header from './Header'
 
 // Props -> Propriedades
 function App() {
+  const [theme, setTheme] = useState('dark');
+
   const [posts, setPosts] = useState([
     { id: Math.random(), title: 'Title#01', subtitle: 'Sub#01', likes: 20, read: false },
     { id: Math.random(), title: 'Title#02', subtitle: 'Sub#02', likes: 10, read: true },
     { id: Math.random(), title: 'Title#03', subtitle: 'Sub#03', likes: 50, read: false },
     { id: Math.random(), title: 'Title#04', subtitle: 'Sub#04', likes: 50, read: false },
   ]);
+
+  function handleToggleTheme(){
+    setTheme((prevState) => (
+      prevState == 'dark' 
+        ? 'light' 
+        : 'dark'
+    ));
+  }
 
   function handleRefresh() {
     setTimeout(() =>{
@@ -34,7 +44,10 @@ function App() {
 
   return (
     <>
-    <Header>
+    <Header
+      theme={theme}
+      onToggleTheme={handleToggleTheme}
+    >
       <h2>
         Posts da semana
         <button onClick={handleRefresh}>Atualizar</button>
@@ -49,6 +62,7 @@ function App() {
         likes={post.likes}
         onRemove={handleRemovePost}
         post={post}
+        theme={theme}
       />
     ))}
     </>
