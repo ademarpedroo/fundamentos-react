@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 
 import Post from './Post'
 import Header from './Header'
+
+export const ThemeContext = createContext('dark');
+
 
 // Props -> Propriedades
 function App() {
@@ -43,11 +46,13 @@ function App() {
   }
 
   return (
-    <>
-    <Header
-      theme={theme}
-      onToggleTheme={handleToggleTheme}
+    <ThemeContext.Provider 
+      value={{ 
+        theme,
+        onToggleTheme: handleToggleTheme,
+      }}
     >
+    <Header >
       <h2>
         Posts da semana
         <button onClick={handleRefresh}>Atualizar</button>
@@ -62,10 +67,9 @@ function App() {
         likes={post.likes}
         onRemove={handleRemovePost}
         post={post}
-        theme={theme}
       />
     ))}
-    </>
+    </ThemeContext.Provider>
   );
 }
 
